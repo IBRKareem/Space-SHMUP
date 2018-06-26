@@ -1,44 +1,79 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 
-public class Hero : MonoBehaviour {
+using System.Collections.Generic;
 
-	static public Hero		S;
-
-
-    [Header("Set in inspector")]
-	public float	speed = 30;
-	public float	rollMult = -45;
-	public float  	pitchMult=30;
-
-    [Header("Set dynamically")]
-	public float	shieldLevel=1;
+using UnityEngine;
 
 
-    private void Awake()
-    {
-        if (S == null)
-        {
-            S = this;
-        } else
-        {
-            Debug.LogError("Hero.Awake() - Attempted to assign second Hero.S!");
-        }
-    }
+
+public class Hero : MonoBehaviour
+{
+
+	static public Hero      S; // Singleton                               // a
 
 
-	
-	// Update is called once per frame
+
+	[Header("Set in Inspector")]
+
+	// These fields control the movement of the ship
+
+	public float            speed = 30;
+
+	public float            rollMult = -45;
+
+	public float            pitchMult = 30;
+
+
+
+	[Header("Set Dynamically")]
+
+	public float            shieldLevel = 1; 
+
+
+
+	void Awake() {
+
+		if (S == null) {
+
+
+			S = this; // Set the Singleton                                   // a
+
+		} else {
+
+			Debug.LogError("Hero.Awake() - Attempted to assign second Hero.S!");
+
+		}
+
+	}
+
+
+
 	void Update () {
-		float xAxis = Input.GetAxis("Horizontal");
-		float yAxis = Input.GetAxis("Vertical");
+
+		// Pull in information from the Input class
+
+		float xAxis = Input.GetAxis("Horizontal");                            // b
+
+		float yAxis = Input.GetAxis("Vertical");                              // b
+
+
+
+		// Change transform.position based on the axes
 
 		Vector3 pos = transform.position;
+
 		pos.x += xAxis * speed * Time.deltaTime;
+
 		pos.y += yAxis * speed * Time.deltaTime;
+
 		transform.position = pos;
-		
-		// rotate the ship to make it feel more dynamic
-		transform.rotation =Quaternion.Euler(yAxis*pitchMult, xAxis*rollMult,0);
+
+
+
+		// Rotate the ship to make it feel more dynamic                      // c
+
+		transform.rotation = Quaternion.Euler(yAxis*pitchMult,xAxis*rollMult,0);
+
 	}
+
 }
