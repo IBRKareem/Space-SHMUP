@@ -76,4 +76,14 @@ public class Hero : MonoBehaviour
 
 	}
 
+	void OnTriggerEnter(Collider other) { 
+
+		Transform rootT = other.gameObject.transform.root;
+
+		GameObject go = rootT.gameObject;
+
+		print("Triggered: "+go.name);
+
+	}
+
 }
