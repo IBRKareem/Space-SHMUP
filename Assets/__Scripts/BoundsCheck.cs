@@ -33,6 +33,10 @@ public class BoundsCheck : MonoBehaviour {                                   // 
 
 	public float    camHeight;
 
+	[HideInInspector]                                    
+
+	public bool     offRight, offLeft, offUp, offDown;       
+
 
 
 	void Awake() {
@@ -45,60 +49,70 @@ public class BoundsCheck : MonoBehaviour {                                   // 
 
 
 
-	void LateUpdate () {                                                     // d
+	void LateUpdate () {
 
 		Vector3 pos = transform.position;
 
-		isOnScreen = true;   
+		isOnScreen = true;
 
-		if (pos.x > camWidth - radius) {
+		offRight = offLeft = offUp = offDown = false;                       // b
 
-			pos.x = camWidth - radius;
 
-			isOnScreen = false;     
+
+		if ( pos.x > camWidth - radius ) {
+
+			pos.x  = camWidth - radius;
+
+			offRight = true;                                                // c
+
+		}
+
+		if ( pos.x < -camWidth + radius ) {
+
+			pos.x  = -camWidth + radius;
+
+			offLeft = true;                                                 // c
+
+		}
+
+
+
+		if ( pos.y > camHeight - radius ) {
+
+			pos.y  = camHeight - radius;
+
+			offUp = true;                                                   // c
 
 		}
 
 
 
 
-		if (pos.x < -camWidth + radius) {
+		if ( pos.y < -camHeight + radius ) {
 
-			pos.x = -camWidth + radius;
+			pos.y  = -camHeight + radius;
 
-			isOnScreen = false;    
-
-		}
-
-
-
-		if (pos.y > camHeight - radius) {
-
-			pos.y = camHeight - radius;
-
-			isOnScreen = false;    
-
-		}
-
-		if (pos.y < -camHeight + radius) {
-
-			pos.y = -camHeight + radius;
-
-			isOnScreen = false;    
+			offDown = true;                                                 // c
 
 		}
 
 
 
-		if ( keepOnScreen && !isOnScreen ) {                                // f
+		isOnScreen = !(offRight || offLeft || offUp || offDown);            // d
 
-			transform.position = pos;                                       // g
+		if ( keepOnScreen && !isOnScreen ) {
+
+			transform.position = pos;
 
 			isOnScreen = true;
+
+			offRight = offLeft = offUp = offDown = false;                   // e
 
 		}
 
 	}
+
+
 
 
 
