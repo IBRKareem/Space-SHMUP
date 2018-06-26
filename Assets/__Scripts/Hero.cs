@@ -26,6 +26,10 @@ public class Hero : MonoBehaviour
 	public float            gameRestartDelay = 2f;
 
 
+	public GameObject       projectilePrefab;
+
+	public float            projectileSpeed = 40;
+
 
 
 
@@ -85,7 +89,31 @@ public class Hero : MonoBehaviour
 
 		transform.rotation = Quaternion.Euler(yAxis*pitchMult,xAxis*rollMult,0);
 
+		// Allow the ship to fire
+
+		if ( Input.GetKeyDown( KeyCode.Space ) ) {                           // a
+
+			TempFire();
+
+		}
+
 	}
+
+
+
+	void TempFire() {                                                        // b
+
+		GameObject projGO = Instantiate<GameObject>( projectilePrefab );
+
+		projGO.transform.position = transform.position;
+
+		Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
+
+		rigidB.velocity = Vector3.up * projectileSpeed;
+
+	}
+
+
 
 	void OnTriggerEnter(Collider other) {
 
