@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour {
 
 	public int        score = 100;      // Points earned for destroying this
 
-	private BoundsCheck bndCheck;                                            // a
+	protected BoundsCheck bndCheck;                                            // a
 
 
 
